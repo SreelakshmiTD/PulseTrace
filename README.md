@@ -66,17 +66,57 @@ This results in:
 
 # 🎯 Solution Overview
 
-PulseTrace mirrors how real data engineers troubleshoot — but automated and reproducible:
+PulseTrace automates root cause analysis using a structured, multi-agent workflow that mirrors how real data engineers investigate failures — but with deterministic tooling, full traceability, and human-in-the-loop correctness.
 
-1. **Detector** — extracts failure signals from logs  
-2. **Diagnoser** — validates schema drift, anomalies, invalid rows, missing partitions  
-3. **History Analyzer** — retrieves similar past failures  
-4. **Impact Analyzer** — identifies downstream blast radius  
-5. **Advisor** — synthesizes findings, generates incident signature, pauses for approval  
+### **1. Detector (`pulse_detector`)**
+Extracts log segments and identifies failure signatures (errors, null inputs, malformed rows).  
+Uses: `log_fetch`
 
-A deterministic toolchain guarantees **zero hallucinations**.
+### **2. Diagnoser (`root_cause_diagnoser`)**
+Performs all critical verification steps:
+- schema drift detection (`schema_diff`)
+- anomaly/invalid-row detection (`sample_data`)
+- missing partition detection
+- negative/null value checks
+- incident signature generation
 
-Gemini is **optional** and used *only* for readability — never for the investigation logic.
+Produces the first **root-cause hypothesis**.
+
+### **3. History Analyzer (`pattern_history_agent`)**
+Matches the ongoing incident with previously approved RCAs stored in the Memory Bank.  
+Provides recurrence signals and historical insights.  
+Uses: `history_query`
+
+### **4. Impact Analyzer (`impact_scope_agent`)**
+Identifies the downstream blast radius using lineage metadata:
+- dependent tables  
+- downstream dashboards  
+- pipeline nodes impacted  
+Uses: `lineage_query`
+
+### **5. Advisor (`pulse_advisor`)**
+Synthesizes the full RCA:
+- root cause  
+- severity  
+- impact radius  
+- recommended fix  
+- comparison with similar past failures  
+
+The Advisor enters an explicit **awaiting_approval** state.
+
+Users may:
+- **Download PDF immediately**, or  
+- **Approve RCA** → triggers `save_report` → writes into Memory Bank
+
+### **Deterministic Core (Zero Hallucinations)**
+All logic uses tool outputs, not LLM predictions.  
+Gemini is optional and used only to improve readability of summaries.
+
+PulseTrace ensures every RCA is:
+- deterministic  
+- auditable  
+- reproducible  
+- explainable  
 
 ---
 
