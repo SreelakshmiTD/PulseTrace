@@ -1,3 +1,26 @@
-numpy
-pandas
-ipywidgets
+# Core Python libraries
+pandas>=2.0.0
+numpy>=1.24.0
+
+# UI components
+ipywidgets>=8.0.0
+IPython>=8.0.0
+
+# ADK (Google Agent Development Kit)
+google-adk>=0.1.3
+
+# Gemini API (optional summaries, not mandatory for deterministic RCA)
+google-generativeai>=0.7.0
+
+# PDF Export
+reportlab>=3.6.12
+
+# Notebook environment
+jupyter>=1.0.0
+notebook>=7.0.0
+
+# Plotting / display (optional but common in notebooks)
+matplotlib>=3.7.0
+
+# Utilities
+tqdm>=4.65.0
