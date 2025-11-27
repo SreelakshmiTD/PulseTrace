@@ -163,7 +163,7 @@ Only the Advisor can write to the Memory Bank — *after human approval*.
 
 # 🔹 6. Notebook UI (Human-in-the-Loop)
 
-<img src="../images/ui.png" width="700">
+<img src="../images/ui.png" width="500">
 
 The UI allows interactive RCA:
 
