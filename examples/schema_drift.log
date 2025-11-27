@@ -1,0 +1,8 @@
+2025-02-10 08:14:32 INFO  JobScheduler: Starting daily ingestion job: orders_v2_ingestion
+2025-02-10 08:14:33 INFO  HDFSClient: Reading file s3://ecom/orders/2025/02/10/orders.json
+2025-02-10 08:14:35 WARN  SchemaValidator: Detected schema mismatch in field 'price'
+2025-02-10 08:14:35 WARN  SchemaValidator: Expected INT but found FLOAT
+2025-02-10 08:14:35 WARN  SchemaValidator: Example offending record: {"order_id": 12098, "price": 29.99}
+2025-02-10 08:14:36 ERROR PipelineExecutor: Schema evolution not enabled. Job aborted.
+2025-02-10 08:14:36 ERROR PipelineExecutor: Failed at stage: transform_orders -> cast_price
+2025-02-10 08:14:36 ERROR DAGRunner: Pipeline failed due to incompatible schema change in upstream dataset.
