@@ -171,7 +171,7 @@ The UI allows interactive RCA:
 - run multi-agent RCA  
 - view schema diff  
 - inspect anomalies  
-- trace messages  
+- View Traces
 - preview draft RCA  
 - download PDF  
 - approve + save  
