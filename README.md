@@ -262,42 +262,55 @@ The notebook UI includes a **Trace Panel** showing all these decisions chronolog
 
 <img src="images/ui.png">
 
-The UI provides:
+PulseTrace includes a fully interactive, notebook-based UI designed to make RCA fast, visual, and explainable — without requiring users to dig through raw logs or inspect agent internals.
 
-- Log upload  
-- One-click RCA execution  
-- Schema diff viewer  
-- Anomalous row inspection  
-- A2A message trace panel  
-- Draft RCA preview  
-- Download PDF  
-- Approval checkbox  
-- Save Report (enabled only after approval)  
+The interface provides:
+
+- **Log Upload Panel** — upload raw pipeline logs  
+- **One-Click RCA Execution** — runs the entire multi-agent chain  
+- **Schema Diff Viewer** — highlights added/removed/type-changed columns  
+- **Anomalous Row Inspector** — surfaces invalid or suspicious data rows  
+- **A2A Message Trace** — shows how agents communicate and pass context  
+- **Draft RCA Preview** — root cause, impact, severity, recommended fix  
+- **Download PDF** — export a clean, shareable RCA document  
+- **Approval Checkbox** — human-in-the-loop verification  
+- **Save Report** — enabled only after approval; writes RCA to Memory Bank  
+
+The UI mirrors a real debugging workflow while keeping everything structured, transparent, and easy to follow.
 
 ---
 
 ## 🔏 UI Approval & Save Flow
 
-- After RCA completes → **Draft RCA** becomes visible  
-- User may immediately click **Download PDF**  
-- To save to Memory Bank:
-  1. Check **Approve RCA**  
-  2. **Save Report** button activates  
-  3. `save_report` writes JSON + Markdown  
-  4. Approved signature → stored in Memory Bank  
+PulseTrace enforces a **human-verified RCA approval process** to ensure only correct, intentional root-cause reports are stored.
 
-This enforces structured, human-verified RCA approval.
+1. After RCA completes → a detailed **Draft RCA** appears  
+2. User may instantly **Download PDF** (no approval required)  
+3. To save the RCA permanently:
+   - Tick **Approve RCA**  
+   - **Save Report** button becomes enabled  
+4. On clicking **Save Report**:
+   - The deterministic `save_report` tool runs  
+   - JSON + Markdown RCA files are written  
+   - The approved RCA signature is added to the **Memory Bank**  
+
+This prevents accidental saves and ensures every RCA in history has been explicitly reviewed and validated.
 
 ---
 
 # ☁️ Cloud Deployment (Vertex AI Agent Engine)
 
-This repository includes a **lightweight cloud version** of PulseTrace:
+PulseTrace also includes a cloud-deployable version of the system, packaged as
+a single-agent Diagnoser designed for Vertex AI Agent Engine.
 
-- A **single-agent Diagnoser**  
-- Deterministic detection (schema drift, missing partitions, invalid values)  
-- Exposes an API endpoint — *not* the full multi-agent pipeline  
-- No Memory Bank, no A2A, no UI  
+This cloud variant provides **deterministic RCA checks** such as:
+- Schema drift  
+- Missing partitions  
+- Invalid or null values  
+- Empty input patterns  
+
+It exposes these checks through a stable API endpoint, making it easy to
+integrate automated RCA validation into data pipelines or monitoring workflows.
 
 ### Deployment Artifacts
 
@@ -322,48 +335,62 @@ adk deploy agent_engine \
 
 # ⚙️ Installation & Usage
 
-### **1. Clone**
-<pre>
-git clone https://github.com/SreelakshmiTD/PulseTrace.git
-cd PulseTrace
-</pre>
+PulseTrace runs entirely inside a **Kaggle Notebook environment**.
 
-### **2. Install**
-<pre>
-pip install -r requirements.txt
-</pre>
+### **1. Open the Kaggle Notebook**
+The full implementation is available here:  
+👉 *notebook link goes here*
 
-### **3. Launch Notebook**
-<pre>
-jupyter notebook notebooks/PulseTrace_capstone.ipynb
-</pre>
+(If the repo is public, add the link to your Kaggle notebook.)
 
-### **4. Run RCA**
-- Upload log file  
-- Click **Run RCA**  
-- Explore schema diff / anomalies / traces  
-- Download PDF  
-- Approve → Save  
+### **2. Copy the Notebook into Your Kaggle Workspace**
+- Click **Copy & Edit**  
+- This creates your own editable version  
+- No local setup or installation required
+
+### **3. Upload Your Log File**
+Inside the notebook UI:
+- Scroll to the **Run RCA** section  
+- Upload your log file (CSV / JSON / raw text)
+
+### **4. Run the RCA**
+- Click **Run RCA** button  
+- Wait for processing (usually <40 seconds)  
+- View:
+  - schema diff  
+  - data anomalies  
+  - pattern history  
+  - impact scope  
+  - draft RCA
+
+### **5. Download or Approve**
+- **Download PDF** anytime  
+- Or **Approve RCA → Save Report**  
+  - Report is stored in the session  
+  - And added to the Memory Bank
 
 ---
 
 # 🧪 Demo Scenarios
 
-PulseTrace was tested on 3 real-world failure types:
+PulseTrace includes three **built-in demo scenarios** used to benchmark the system.  
+But the UI also allows you to **upload your own log files**, enabling RCA on  
+any real-world pipeline failure — not just the sample cases.
 
 ### **1. Schema Drift**  
 Column `price` INT → FLOAT  
-→ drift detected → diff shown → downstream impact mapped
+→ drift detected → diff highlighted → downstream impact mapped
 
 ### **2. Missing Partition**  
 Partition `dt=2025-02-10` missing  
-→ empty input detected → history matches → blast radius identified
+→ empty input detected → historical patterns checked → blast radius identified
 
 ### **3. Invalid Values**  
 Negative / null prices  
-→ anomalies detected → sample rows shown → fix recommended
+→ anomalies detected → sample rows surfaced → fix recommended
 
-All RCAs finish in **under 40 seconds**.
+All RCAs completed in **under 40 seconds**.
+
 
 ---
 
