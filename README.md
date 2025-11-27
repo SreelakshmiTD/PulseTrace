@@ -385,39 +385,72 @@ adk deploy agent_engine \
 
 # ⚙️ Installation & Usage
 
-PulseTrace runs entirely inside a **Kaggle Notebook environment**.
+PulseTrace runs entirely inside a **Kaggle Notebook**—no local setup required.
 
-### **1. Open the Kaggle Notebook**
+---
+
+## **1. Open the Kaggle Notebook**
 The full implementation is available here:  
-👉 *notebook link goes here*
+👉 *(Add your Kaggle link here)*
 
-(If the repo is public, add the link to your Kaggle notebook.)
+Click **Copy & Edit** to create your own editable workspace.
 
-### **2. Copy the Notebook into Your Kaggle Workspace**
-- Click **Copy & Edit**  
-- This creates your own editable version  
-- No local setup or installation required
+---
 
-### **3. Upload Your Log File**
-Inside the notebook UI:
-- Scroll to the **Run RCA** section  
-- Upload your log file (CSV / JSON / raw text)
+## **2. Choose How You Want to Run PulseTrace**
 
-### **4. Run the RCA**
-- Click **Run RCA** button  
-- Wait for processing (usually <40 seconds)  
-- View:
-  - schema diff  
-  - data anomalies  
-  - pattern history  
-  - impact scope  
-  - draft RCA
+You have **two options**:
 
-### **5. Download or Approve**
-- **Download PDF** anytime  
-- Or **Approve RCA → Save Report**  
-  - Report is stored in the session  
-  - And added to the Memory Bank
+### **Option A — Use Built-In Demo Scenarios (Recommended First)**  
+Inside the notebook, you’ll find **three ready-to-run scenarios**:
+
+- **Schema Drift**
+- **Missing Partition**
+- **Invalid Values**
+
+Just go to the **Demo Scenarios** section and click:  
+➡️ **Run Scenario 1 / 2 / 3**
+
+This helps you understand how the system behaves before uploading real logs.
+
+---
+
+### **Option B — Upload Your Own Log Files**  
+You can upload **CSV**, **JSON**, or **raw text logs**.
+
+Steps:
+
+1. Scroll to the **Run RCA** section in the notebook  
+2. Upload your file  
+3. Click **Run RCA**  
+4. View the outputs:
+   - Schema diff  
+   - Anomalous rows  
+   - Pattern history  
+   - Impact analysis  
+   - Draft RCA  
+   - A2A message trace
+
+Processing typically finishes in **under 40 seconds**.
+
+---
+
+## **3. Download or Approve the RCA**
+
+You have two choices:
+
+### **✔ Download PDF (anytime)**  
+The moment the draft RCA is generated, you can click **Download PDF**.
+
+### **✔ Approve → Save Report**  
+To save results permanently:
+
+1. Tick **Approve RCA**  
+2. **Save Report** button becomes active  
+3. The report is written using `save_report`  
+4. Stored inside the **Memory Bank** (session-level)
+
+This ensures only *human-validated* RCAs are saved.
 
 ---
 
