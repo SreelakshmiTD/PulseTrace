@@ -1,7 +1,7 @@
 # PulseTrace  
 ### Multi-Agent Root Cause Analysis for Data Pipeline Failures
 
-![PulseTrace Banner](images/banner.png)
+![PulseTrace Banner](images/pulsetrace_google_kaggle_banner.png)
 
 PulseTrace is an advanced, multi-agent RCA (Root Cause Analysis) engine designed to automate the investigation of data pipeline failures. It mirrors how real data engineers debug issues—log inspection, schema diffing, anomaly detection, historical lookup, lineage tracing—but performs these steps faster, more consistently, and with a fully deterministic toolchain.
 
