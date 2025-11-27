@@ -435,7 +435,7 @@ Processing typically finishes in **under 40 seconds**.
 
 ---
 
-## **3. Download or Approve the RCA**
+### **3. Download or Approve the RCA**
 
 You have two choices:
 
