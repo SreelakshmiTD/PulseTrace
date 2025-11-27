@@ -1,32 +1,36 @@
-# PulseTrace  
+# 🚀 PulseTrace  
 ### Multi-Agent Root Cause Analysis for Data Pipeline Failures
 
 <img src="images/pulsetrace_google_kaggle_banner.png" width="500">
 
-PulseTrace is an advanced, multi-agent RCA (Root Cause Analysis) engine designed to automate the investigation of data pipeline failures. It mirrors how real data engineers debug issues—log inspection, schema diffing, anomaly detection, historical lookup, lineage tracing—but performs these steps faster, more consistently, and with a fully deterministic toolchain.
+PulseTrace is a deterministic, multi-agent RCA (Root Cause Analysis) engine for data pipelines.  
+It mirrors how real data engineers debug failures—parsing logs, comparing schemas, detecting anomalies, scanning lineage, and checking historical incidents—but performs these steps faster, consistently, and with full transparency.
+
+PulseTrace runs best inside the **Kaggle Notebook UI**, with optional cloud deployment using **Vertex AI Agent Engine**.
 
 ---
 
 # 📌 Table of Contents
-
-- [Problem Statement](#problem-statement)
-- [Solution Overview](#solution-overview)
-- [Key Features](#key-features)
-- [Architecture](#architecture)
-  - [Agents](#agents)
-  - [Deterministic Core Tools](#deterministic-core-tools)
-  - [A2A Message Router](#a2a-message-router)
-  - [Sessions & Memory Bank](#sessions--memory-bank)
-  - [Observability](#observability)
-- [Cloud Deployment](#cloud-deployment-vertex-ai-agent-engine)
-- [UI Prototype](#ui-prototype)
-- [Demo Scenarios](#demo-scenarios)
-- [Performance Summary](#performance-summary)
-- [ADK Concepts Demonstrated](#adk-concepts-demonstrated)
-- [Repository Structure](#repository-structure)
-- [Limitations](#limitations)
-- [Future Enhancements](#future-enhancements)
-- [Conclusion](#conclusion)
+- [Problem Statement](#problem-statement)  
+- [Solution Overview](#solution-overview)  
+- [Why Multi-Agent Architecture?](#why-multi-agent-architecture)  
+- [Architecture](#architecture)  
+  - [Agents](#agents)  
+  - [Deterministic Core Tools](#deterministic-core-tools)  
+  - [A2A Message Router](#a2a-message-router)  
+  - [Sessions & Memory Bank](#sessions--memory-bank)  
+  - [Observability](#observability)  
+- [Cloud Deployment](#cloud-deployment-vertex-ai-agent-engine)  
+- [UI Prototype](#ui-prototype)  
+- [UI Approval Flow](#-ui-approval--save-flow)  
+- [Demo Scenarios](#demo-scenarios)  
+- [Performance Summary](#performance-summary)  
+- [ADK Concepts Demonstrated](#adk-concepts-demonstrated)  
+- [Installation & Usage](#installation--usage)  
+- [Repository Structure](#repository-structure)  
+- [Limitations](#limitations)  
+- [Future Enhancements](#future-enhancements)  
+- [Conclusion](#conclusion)  
 - [Author](#author)
 
 ---
@@ -35,38 +39,40 @@ PulseTrace is an advanced, multi-agent RCA (Root Cause Analysis) engine designed
 
 ![Pipeline Failure](images/pipeline_failure.png)
 
-Data pipeline failures are inevitable, but understanding *why* they happen is often the most time-consuming part. Teams must dig through logs, compare schemas, inspect lineage, and check historical anomalies—usually with scattered tools and tribal knowledge.
+Data pipeline failures are inevitable, but the manual debugging process is slow and inconsistent.  
+Logs, schema diffs, lineage graphs, metadata, past incidents—all scattered across systems.
 
-Alerts often tell you **what** broke, not **why**.  
-Root causes hide across metadata, historical incidents, and subtle schema or data shifts.
+Alerts tell you **what** broke, not **why**.
 
-**PulseTrace automates this end-to-end investigation workflow with explainable, deterministic reasoning.**
+PulseTrace automates this workflow with deterministic reasoning and multi-agent orchestration, delivering a clear RCA in under 40 seconds.
 
 ---
 
 # 🎯 Solution Overview
 
-PulseTrace performs RCA through a structured, multi-agent workflow:
+PulseTrace uses a structured, multi-agent workflow:
 
-1. **Detector** identifies failure signals.  
-2. **Diagnoser** validates schema changes, anomalies, and logs.  
-3. **History Analyzer** retrieves similar incidents.  
-4. **Impact Analyzer** maps downstream effects.  
-5. **Advisor** synthesizes and pauses for human approval.
+1. **Detector** → identifies failure signatures  
+2. **Diagnoser** → checks schema, anomalies, logs  
+3. **History Analyzer** → matches historical patterns  
+4. **Impact Analyzer** → finds downstream impact  
+5. **Advisor** → drafts RCA + waits for human approval  
 
-A Deterministic Core guarantees **zero hallucinations**, with Gemini used only for optional readability enhancements.
+Critical checks are executed by a **Deterministic Core** to guarantee **zero hallucinations**.
 
 ---
 
-# 🌟 Key Features
+# 🤖 Why Multi-Agent Architecture?
 
-- **Multi-agent reasoning** with clear responsibilities.  
-- **Deterministic tools** for schema diffing, log parsing, lineage mapping, and anomaly detection.  
-- **Full transparency** through structured trace logs.  
-- **Human-in-the-loop approval** before publishing RCAs.  
-- **Optional Gemini summaries** that do not affect root-cause logic.  
-- **Cloud-ready deployment** to Vertex AI Agent Engine.  
-- **Clean widget-based UI** for analysts and engineers.
+RCA spans multiple dependent steps. Multi-agent design provides:
+
+- Clear separation of responsibilities  
+- Deterministic, reproducible execution  
+- Full trace transparency  
+- Human-in-the-loop final approval  
+- Easy extensibility  
+
+This aligns with real-world debugging workflows.
 
 ---
 
@@ -77,31 +83,36 @@ A Deterministic Core guarantees **zero hallucinations**, with Gemini used only f
 PulseTrace consists of:
 
 - Five specialized agents  
-- Deterministic Core tools  
-- A custom A2A Message Router  
-- Session manager  
+- Deterministic Core Tools  
+- A2A Message Router  
+- Session Manager  
 - Memory Bank  
-- Trace logging system  
-- Optional Gemini support
+- Notebook UI  
+- Optional Gemini summaries  
 
 ---
 
 ## 👥 Agents
 
-### **1. Detector (`pulse_detector`)**
-Extracts log segments and identifies failure signatures.
+### **1. pulse_detector**  
+Extracts relevant log segments and identifies failure signatures.  
+*(uses `log_fetch`)*
 
-### **2. Diagnoser (`root_cause_diagnoser`)**
-Performs schema diffing, anomaly checks, and root-cause hypothesis generation.
+### **2. root_cause_diagnoser**  
+Performs schema diffing, anomaly checks, and hypothesis generation.  
+*(uses `log_fetch`, `schema_diff`, `sample_data`)*
 
-### **3. History Analyzer (`pattern_history_agent`)**
-Matches the incident with past failures stored in the Memory Bank.
+### **3. pattern_history_agent**  
+Matches the incident with previously saved RCAs.  
+*(uses `history_query`)*
 
-### **4. Impact Analyzer (`impact_scope_agent`)**
-Maps downstream consequences using lineage queries.
+### **4. impact_scope_agent**  
+Determines downstream tables affected.  
+*(uses `lineage_query`)*
 
-### **5. Advisor (`pulse_advisor`)**
-Synthesizes findings, pauses for human approval, and writes the final RCA.
+### **5. pulse_advisor**  
+Synthesizes findings, pauses for human approval, then finalizes RCA.  
+*(uses `save_report`)*
 
 ---
 
@@ -116,13 +127,13 @@ Synthesizes findings, pauses for human approval, and writes the final RCA.
 - `history_query`  
 - `save_report`
 
-These form the **zero-hallucination root-cause engine**.
+Tools guarantee the **zero-hallucination investigation engine**.
 
 ---
 
 ## 🔄 A2A Message Router
 
-PulseTrace uses a custom in-memory router to coordinate agents:
+The agents communicate through a lightweight in-memory router:
 
 <pre>
 pulse_detector
@@ -134,7 +145,7 @@ pulse_detector
                     → save_report
 </pre>
 
-All events are captured for observability.
+All messages are transparent and observable.
 
 ---
 
@@ -144,14 +155,14 @@ All events are captured for observability.
 
 Each session stores:
 
+- logs  
 - schema diffs  
 - anomalies  
-- logs  
-- lineage information  
-- history matches  
-- final draft RCA  
+- lineage  
+- tool outputs  
+- draft RCA  
 
-Approved RCAs are saved to the Memory Bank for future pattern matching.
+After human approval, RCAs are added to the **Memory Bank** for pattern matching.
 
 ---
 
@@ -160,21 +171,20 @@ Approved RCAs are saved to the Memory Bank for future pattern matching.
 PulseTrace logs:
 
 - agent actions  
-- tool results  
-- routing messages  
+- tool outputs  
+- A2A messages  
 - timestamps  
 - human approvals  
-- decision traces  
 
-This produces a fully auditable investigation timeline.
+It produces a complete auditable investigation trace.
 
 ---
 
 # ☁️ Cloud Deployment (Vertex AI Agent Engine)
 
-PulseTrace includes a cloud-hosted RCA engine deployed through **Vertex AI Agent Engine**. The deployed agent provides deterministic log-analysis functions for detecting schema drift, missing partitions, invalid values, and empty inputs.
+PulseTrace includes a production-style cloud version using **Vertex AI Agent Engine**.
 
-### **Deployment Artifacts**
+### 📦 Deployment Artifacts
 <pre>
 pulsetrace_deploy/
     pulse_agent.py
@@ -182,7 +192,7 @@ pulsetrace_deploy/
     .agent_engine_config.json
 </pre>
 
-### **Deploy**
+### 🚀 Deploy Command
 <pre>
 adk deploy agent_engine \
     --project=$PROJECT_ID \
@@ -191,67 +201,105 @@ adk deploy agent_engine \
     --agent_engine_config_file=pulsetrace_deploy/.agent_engine_config.json
 </pre>
 
-Once deployed, the endpoint runs the agent’s deterministic analysis functions and returns structured RCA summaries.
-
 ---
 
 # 🖥️ UI Prototype
 
 ![UI](images/ui.png)
 
-The UI offers:
+The Notebook UI includes:
 
 - Log upload  
-- One-click RCA execution  
-- Schema diff visualization  
-- Anomaly browsing  
-- Agent trace view  
-- Draft RCA preview  
-- PDF export  
-- Approval + Memory Bank save  
+- One-click RCA  
+- Schema diff viewer  
+- Anomaly browser  
+- A2A message trace  
+- RCA draft preview  
+- PDF download  
+- Approval + Save to Memory Bank  
 
-User-friendly and ideal for demonstrations.
+---
+
+# 🔏 UI Approval & Save Flow
+
+- After RCA completes → a **draft RCA** is generated  
+- User can immediately click **Download PDF**  
+- To save the RCA:
+  1. Tick the **Approve RCA** checkbox  
+  2. **Save Report** button becomes enabled  
+  3. Saved RCA goes into the **Memory Bank**
+
+This ensures correctness before storing historical incidents.
 
 ---
 
 # 🧪 Demo Scenarios
 
-PulseTrace is validated on three failure types:
+PulseTrace was tested on common data failures:
 
 ### **1. Schema Drift**  
-INT → FLOAT change in `price`.
+INT → FLOAT in column `price`.
 
 ### **2. Missing Partition**  
-Absent daily partition (`dt=2025-02-10`).
+Partition `dt=2025-02-10` absent.
 
 ### **3. Invalid Values**  
-Negative prices and nulls.
+Negative or null prices.
 
-RCA completes in **under 40 seconds** for all cases.
+Each RCA completes in **under 40s** with accurate, reproducible output.
 
 ---
 
 # 📈 Performance Summary
 
-- 22–48 minutes → **under 40 seconds**  
+- **22–48 mins → under 40s**  
 - **95–97% RCA accuracy**  
 - **Zero hallucinations**  
-- **68% reduction** in wrong investigation paths  
-- **1.8s overhead** at 10× log volume  
-- Fully reproducible outputs  
+- **68% fewer wrong investigation paths**  
+- **Only 1.8s overhead at 10× log volume**  
+- Fully deterministic  
 
 ---
 
-# 🧩 ADK Concepts Demonstrated
+# 🎓 ADK Concepts Demonstrated
 
-- Multi-agent workflows  
+- Multi-agent orchestration  
 - Deterministic tool calls  
-- A2A communication  
+- A2A message routing  
 - Long-running approval flows  
-- Memory Bank pattern matching  
-- Observability & trace logs  
-- Hybrid LLM summaries  
-- Cloud deployment via Vertex AI Agent Engine  
+- Memory Bank similarity matching  
+- Session context  
+- Observability integration  
+- Hybrid Gemini summaries  
+- Vertex AI cloud deployment  
+
+---
+
+# ⚙️ Installation & Usage
+
+### **1. Clone the Repository**
+<pre>
+git clone https://github.com/SreelakshmiTD/PulseTrace.git
+cd PulseTrace
+</pre>
+
+### **2. Install Dependencies**
+<pre>
+pip install -r requirements.txt
+</pre>
+
+### **3. Launch Notebook UI**
+<pre>
+jupyter notebook notebooks/PulseTrace_capstone.ipynb
+</pre>
+
+### **4. Run RCA Flow**
+- Upload a log file  
+- Click **Run RCA**  
+- Explore schema diffs, anomalies, and traces  
+- **Download PDF**  
+- Approve RCA → enable **Save Report**  
+- Saved RCAs appear in Memory Bank  
 
 ---
 
@@ -282,39 +330,35 @@ PulseTrace/
 
 # 🚧 Limitations
 
-- Uses simulated metadata rather than live warehouse integrations  
-- Historical similarity matching is rule-based instead of embedding-based  
-- UI is notebook-based and not yet a standalone web app  
+- Uses simulated metadata  
+- Rule-based historical matching  
+- Notebook UI, not a full web app  
 
 ---
 
 # 🔮 Future Enhancements
 
-- Native connectors for BigQuery, Snowflake, Spark, and dbt Cloud  
-- Event-triggered RCA using Airflow or Dagster  
-- Embedding-based similarity search for historical incident recall  
-- Full production web UI with dashboards and RCA history viewer  
-- Reliability analytics and trend monitoring  
-- Complete multi-agent cloud deployment with Vertex AI Agent Engine  
+- Warehouse connectors (BigQuery, Snowflake, Spark)  
+- Airflow/Dagster triggers  
+- Embedding-based similarity search  
+- Web UI with dashboards  
+- Trend analytics & reliability reports  
+- End-to-end cloud deployment  
 
 ---
 
 # 🏁 Conclusion
 
-PulseTrace brings automation, determinism, and transparency to data pipeline root cause analysis.  
-By combining multi-agent reasoning, deterministic tooling, lineage awareness, and human-in-the-loop approval, it delivers accurate and reproducible RCAs while significantly reducing investigation time.  
-The system is designed for extensibility, making it applicable across diverse data ecosystems and real production workflows.
+PulseTrace delivers **fast, deterministic, transparent** RCA for data pipelines.  
+By combining multi-agent reasoning, deterministic tools, lineage awareness, and human approval, it dramatically reduces investigation time while ensuring accuracy.
 
 ---
 
 # 👩‍💻 Author
 
-**Sreelakshmi T D**
+**Sreelakshmi T D**  
+Engineering reliable, transparent, intelligent data systems.
 
-Engineering reliable, transparent, and intelligent data systems.
-
-GitHub · [@SreelakshmiTD](https://github.com/SreelakshmiTD)  
-LinkedIn · https://www.linkedin.com/in/sreelakshmi-t-d-87100b13b/
-Email · sreelakshmitd97@gmail.com
-
-
+GitHub: @SreelakshmiTD  
+LinkedIn: https://www.linkedin.com/in/sreelakshmi-t-d-87100b13b/  
+Email: sreelakshmitd97@gmail.com
