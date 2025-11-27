@@ -257,3 +257,64 @@ RCA completes in **under 40 seconds** for all cases.
 
 # 📁 Repository Structure
 
+<pre>
+PulseTrace/
+├─ notebooks/
+│   └─ PulseTrace_capstone.ipynb
+├─ pulsetrace_deploy/
+│   ├─ pulse_agent.py
+│   ├─ requirements.txt
+│   └─ .agent_engine_config.json
+├─ src/
+│   ├─ agents/
+│   ├─ core/
+│   └─ utils/
+├─ images/
+│   ├─ banner.png
+│   ├─ architecture.png
+│   ├─ tools.png
+│   ├─ ui.png
+│   └─ memory_bank.png
+└─ README.md
+</pre>
+
+---
+
+# 🚧 Limitations
+
+- Uses simulated metadata rather than live warehouse integrations  
+- Historical similarity matching is rule-based instead of embedding-based  
+- UI is notebook-based and not yet a standalone web app  
+
+---
+
+# 🔮 Future Enhancements
+
+- Native connectors for BigQuery, Snowflake, Spark, and dbt Cloud  
+- Event-triggered RCA using Airflow or Dagster  
+- Embedding-based similarity search for historical incident recall  
+- Full production web UI with dashboards and RCA history viewer  
+- Reliability analytics and trend monitoring  
+- Complete multi-agent cloud deployment with Vertex AI Agent Engine  
+
+---
+
+# 🏁 Conclusion
+
+PulseTrace brings automation, determinism, and transparency to data pipeline root cause analysis.  
+By combining multi-agent reasoning, deterministic tooling, lineage awareness, and human-in-the-loop approval, it delivers accurate and reproducible RCAs while significantly reducing investigation time.  
+The system is designed for extensibility, making it applicable across diverse data ecosystems and real production workflows.
+
+---
+
+# 👩‍💻 Author
+
+**Sreelakshmi T D**
+
+Engineering reliable, transparent, and intelligent data systems.
+
+GitHub · [@SreelakshmiTD](https://github.com/SreelakshmiTD)  
+LinkedIn · https://www.linkedin.com/in/sreelakshmi-t-d-87100b13b/
+Email · sreelakshmitd97@gmail.com
+
+
