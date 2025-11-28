@@ -315,7 +315,7 @@ PulseTrace detects the drift, surfaces the diff, and computes downstream impact.
 <img src="run_results/s1_rca.png" width="600">
 
 **Generated PDF Report**  
-👉 [Download Scenario 1 PDF](run_results/s1_report.pdf)
+👉 [Download Scenario 1 PDF](run_results/rca_schema_drift.pdf)
 
 ---
 
@@ -330,7 +330,7 @@ PulseTrace detects empty input, checks history, and identifies downstream delay 
 <img src="run_results/s2_rca.png" width="600">
 
 **Generated PDF Report**  
-👉 [Download Scenario 2 PDF](run_results/s2_report.pdf)
+👉 [Download Scenario 2 PDF](run_results/rca_missing_partition.pdf)
 
 ---
 
@@ -345,7 +345,7 @@ PulseTrace detects anomalies and highlights invalid rows.
 <img src="run_results/s3_rca.png" width="600">
 
 **Generated PDF Report**  
-👉 [Download Scenario 3 PDF](run_results/s3_report.pdf)
+👉 [Download Scenario 3 PDF](run_results/rca_invalid_values.pdf)
 
 ---
 # ☁️ Cloud Deployment (Vertex AI Agent Engine)
