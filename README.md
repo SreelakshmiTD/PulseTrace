@@ -312,7 +312,7 @@ PulseTrace detects the drift, surfaces the diff, and computes downstream impact.
 <img src="run_results/s1_trace.png" width="600">
 
 **RCA Preview**  
-<img src="run_results/s1_rca.png" width="600">
+<img src="run_results/rca_schema_drift.png" width="600">
 
 **Generated PDF Report**  
 👉 [Download Scenario 1 PDF](run_results/rca_schema_drift.pdf)
@@ -327,7 +327,7 @@ PulseTrace detects empty input, checks history, and identifies downstream delay 
 <img src="run_results/s2_trace.png" width="600">
 
 **RCA Preview**  
-<img src="run_results/s2_rca.png" width="600">
+<img src="run_results/rca_missing_partition.png" width="600">
 
 **Generated PDF Report**  
 👉 [Download Scenario 2 PDF](run_results/rca_missing_partition.pdf)
@@ -342,7 +342,7 @@ PulseTrace detects anomalies and highlights invalid rows.
 <img src="run_results/s3_trace.png" width="600">
 
 **RCA Preview**  
-<img src="run_results/s3_rca.png" width="600">
+<img src="run_results/rca_invalid_values.png" width="600">
 
 **Generated PDF Report**  
 👉 [Download Scenario 3 PDF](run_results/rca_invalid_values.pdf)
