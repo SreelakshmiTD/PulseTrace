@@ -15,23 +15,52 @@ PulseTrace emphasizes **explainability**, **zero hallucinations**, **multi-agent
 
 <pre>
 PulseTrace/
-├─ notebooks/
-│   └─ PulseTrace_capstone.ipynb
-├─ pulsetrace_deploy/
-│   ├─ pulse_agent.py
-│   ├─ requirements.txt
-│   └─ .agent_engine_config.json
-├─ src/
-│   ├─ agents/
-│   ├─ core/
-│   └─ utils/
-├─ images/
-│   ├─ banner.png
-│   ├─ architecture.png
-│   ├─ tools.png
-│   ├─ ui.png
-│   └─ memory_bank.png
-└─ README.md
+│
+├── README.md
+├── requirements.txt
+├── .env.example
+├── .gitignore
+│
+├── docs/
+│   └── architecture.md
+│
+├── examples/
+│   └── sample_logs/
+│       └── schema_drift.log
+│
+├── images/
+│   ├── a2a_flow.png
+│   ├── architecture.png
+│   ├── cloud1.png
+│   ├── memory_bank.png
+│   ├── pipeline_failure.png
+│   ├── pulsetrace_google_kaggle_banner.png
+│   ├── tools.png
+│   └── ui.png
+│
+├── notebooks/
+│   └── pulsetrace-capstone-2025.ipynb
+│
+├── run_results/
+│   ├── rca_invalid_values.pdf
+│   ├── rca_invalid_values.png
+│   ├── rca_invalid_values_trace.png
+│   │
+│   ├── rca_missing_partition.pdf
+│   ├── rca_missing_partition.png
+│   ├── rca_missing_partition_trace.png
+│   │
+│   ├── rca_schema_drift.pdf
+│   ├── rca_schema_drift.png
+│   ├── rca_schema_drift_trace.png
+│
+└── src/
+    ├── agent_readme.md
+    ├── core/
+    │   └── core_readme.md
+    │
+    └── utils/
+        └── utils_readme.md
 </pre>
 
 ---
